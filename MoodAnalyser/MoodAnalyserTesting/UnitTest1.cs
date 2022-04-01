@@ -1,4 +1,4 @@
-using MoodAnalyser;
+using MoodAnalysers;
 using MoodAnalyserSpace;
 using NUnit.Framework;
 
@@ -7,13 +7,15 @@ namespace MoodAnalyserTesting
 {
     public class Tests
     {
-        MoodAnalyserSpace.MoodAnalyser moodAnalyser;
+        MoodAnalyser moodAnalyser;
+        MoodAnalyserFactory moodAnalyserFactory;
         [SetUp]
         public void Setup()
         {
             string result = "";
             //Arrange
-            moodAnalyser = new MoodAnalyserSpace.MoodAnalyser(result);
+            moodAnalyser = new MoodAnalyser(result);
+            moodAnalyserFactory = new MoodAnalyserFactory();
         }
 
         ///<summary>
@@ -22,7 +24,7 @@ namespace MoodAnalyserTesting
         [Test]
         public void GivenMessage_ShouldReturnSad()
         {
-            moodAnalyser = new MoodAnalyserSpace.MoodAnalyser("I am in SAD mood".ToLower());
+            moodAnalyser = new MoodAnalyser("I am in SAD mood".ToLower());
             // Act
             string message = moodAnalyser.AnalyseMood();
             // Assert
@@ -34,7 +36,7 @@ namespace MoodAnalyserTesting
         [Test]
         public void GivenMessage_ShouldReturnHappy()
         {
-            moodAnalyser = new MoodAnalyserSpace.MoodAnalyser("I am in ANY Mood".ToLower());
+            moodAnalyser = new MoodAnalyser("I am in ANY Mood".ToLower());
             string message = moodAnalyser.AnalyseMood();
             Assert.AreEqual("HAPPY", message);
         }
@@ -45,7 +47,7 @@ namespace MoodAnalyserTesting
         [Test]
         public void GivenMessage_WhenNull_ShouldReturnHappy()
         {
-            moodAnalyser = new MoodAnalyserSpace.MoodAnalyser();
+            moodAnalyser = new MoodAnalyser();
             //Act
             string message = moodAnalyser.AnalyseMood();
             //Assert
@@ -63,7 +65,7 @@ namespace MoodAnalyserTesting
             try
             {
                 //Act
-                moodAnalyser = new MoodAnalyserSpace.MoodAnalyser(message);
+                moodAnalyser = new MoodAnalyser(message);
             }
             catch (MoodAnalyserCustomException exception)
             {
@@ -81,7 +83,7 @@ namespace MoodAnalyserTesting
             try
             {
                 //Act
-                moodAnalyser = new MoodAnalyserSpace.MoodAnalyser(message);
+                moodAnalyser = new MoodAnalyser(message);
             }
             catch (MoodAnalyserCustomException exception)
             {
@@ -89,5 +91,48 @@ namespace MoodAnalyserTesting
             }
         }
 
+        /// <summary>
+        /// Tc 4.1 Given MoodAnalyser Class Name Should Return MoodAnalyser Object
+        /// </summary>
+        [Test]
+        public void MoodAnalyserClass_NameShouldReturnMood_AnalyserObject()
+        {
+            object expected = new MoodAnalyser();
+            object obj = MoodAnalyserFactory.CreateMoodAnalyser("MoodAnalyserSpace.MoodAnalyser", "MoodAnalyser");
+            expected.Equals(obj);
+        }
+
+        /// <summary>
+        /// TC 4.2 Given Class Name When Improper Should Throw MoodAnalysisException
+        /// </summary>
+        [Test]
+        public void MoodAnalyser_Improper_ClassNameShouldThrow_MoodAnalyserException()
+        {
+            string expected = "Class not found";
+            try
+            {
+                object obj = MoodAnalyserFactory.CreateMoodAnalyser("MoodAnalyserSpace.Mood", "Mood");
+            }
+            catch (MoodAnalyserCustomException exception)
+            {
+                Assert.AreEqual(expected, exception.Message);
+            }
+        }
+        /// <summary>
+        /// TC 4.3 Given Class When Improper Constructor name Should Throw MoodAnalysisException
+        /// </summary>
+        [Test]
+        public void MoodAnalyser_Improper_ConstructorName_ShoulThrow_MoodAnalyserException()
+        {
+            string expected = "Constructor not found";
+            try
+            {
+                object obj = MoodAnalyserFactory.CreateMoodAnalyser("MoodAnalyserSpace.MoodAnalyser", "AnalyserMood");
+            }
+            catch (MoodAnalyserCustomException exception)
+            {
+                Assert.AreEqual(expected, exception.Message);
+            }
+        }
     }
 }

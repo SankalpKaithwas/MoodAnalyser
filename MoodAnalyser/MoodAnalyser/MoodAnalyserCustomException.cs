@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace MoodAnalyser
+namespace MoodAnalysers
 {
     public class MoodAnalyserCustomException : Exception
     {
@@ -10,7 +10,10 @@ namespace MoodAnalyser
         public enum ExceptionType
         {
             EmptyMood,
-            EmptyNull
+            NullMood,
+            NoSuchClass,
+            NoSuchConstructor,
+            NoSuchField,
         }
 
         public MoodAnalyserCustomException(ExceptionType type, string message) : base(message)
