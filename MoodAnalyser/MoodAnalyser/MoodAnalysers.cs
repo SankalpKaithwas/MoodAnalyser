@@ -1,4 +1,5 @@
-﻿namespace MoodAnalyserSpace
+﻿using System;
+namespace MoodAnalyserSpace
 {
     public class MoodAnalysers
     {
@@ -14,9 +15,16 @@
 
         public string AnalyseMood()
         {
-            if (message.ToLower().Contains("sad"))
-                return "SAD";
-            else return "HAPPY";
+            try
+            {
+                if (message.ToLower().Contains("sad"))
+                    return "SAD";
+                else return "HAPPY";
+            }
+            catch (NullReferenceException)
+            {
+                return "HAPPY";
+            }
         }
     }
 }
