@@ -10,30 +10,32 @@ namespace MoodAnalyserTesting
         [SetUp]
         public void Setup()
         {
+            string result = "";
             //Arrange
-            moodAnalyser = new MoodAnalysers();
+            moodAnalyser = new MoodAnalysers(result);
         }
 
         ///</summary>
-        /// TC-1.1 Given "I am in Sad mood" message should return SAD
+        /// TC-1.1 Given "I am in Sad mood" message should return SAD using constructor
         /// ///</summary
         [Test]
         public void GivenMessage_ShouldReturnSad()
         {
+            moodAnalyser = new MoodAnalysers("I am in SAD mood");
             // Act
-            string message = moodAnalyser.AnalyseMood("I am in SAD mood").ToLower();
+            string message = moodAnalyser.AnalyseMood();
             // Assert
-            Assert.AreEqual("sad", message);
+            Assert.AreEqual("SAD", message);
         }
-
+        ///</summary>
+        /// TC-1.2 Given "I am in Any mood" message should return HAPPY using constructor
+        ///</summary>
         [Test]
-        ///</summary>
-        /// TC-1.2 Given "I am in Any mood" message should return HAPPY
-        ///</summary>
-        public void GivenAMessage_ShouldReturnHappy()
+        public void GivenMessage_ShouldReturnHappy()
         {
-            string message = moodAnalyser.AnalyseMood("I am in ANY Mood").ToLower();
-            Assert.AreEqual("happy", message);
+            moodAnalyser = new MoodAnalysers("I am in ANY Mood");
+            string message = moodAnalyser.AnalyseMood();
+            Assert.AreEqual("HAPPY", message);
         }
     }
 }

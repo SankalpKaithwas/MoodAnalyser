@@ -5,11 +5,11 @@ namespace MoodAnalyserSpace
     {
         static void Main(string[] args)
         {
-            MoodAnalysers moodAnalysers = new MoodAnalysers();
-            Console.WriteLine("Enter mood: ");
+            Console.WriteLine("Enter your mood: ");
             string mood = Console.ReadLine();
-            string message = moodAnalysers.AnalyseMood(mood);
-            Console.WriteLine("Mood is " + message);
+            MoodAnalysers moodAnalysers = new MoodAnalysers(mood);
+            string message = moodAnalysers.AnalyseMood();
+            Console.WriteLine("Mood is - " + message);
         }
     }
 }
