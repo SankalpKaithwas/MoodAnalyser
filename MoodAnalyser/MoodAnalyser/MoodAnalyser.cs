@@ -31,6 +31,5 @@ namespace MoodAnalyserSpace
                 return "HAPPY";
             }
         }
-
     }
 }
