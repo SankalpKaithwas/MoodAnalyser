@@ -17,10 +17,9 @@ namespace MoodAnalyserTesting
             moodAnalyser = new MoodAnalyser(result);
 
         }
-
-        ///<summary>
+        /// <summary>
         /// TC-1.1 Given "I am in Sad mood" message should return SAD using constructor
-        ///</summary
+        /// </summary>
         [Test]
         public void GivenMessage_ShouldReturnSad()
         {
@@ -30,9 +29,9 @@ namespace MoodAnalyserTesting
             // Assert
             Assert.AreEqual("SAD", message);
         }
-        ///<summary>
+        /// <summary>
         /// TC-1.2 Given "I am in Any mood" message should return HAPPY using constructor
-        ///</summary>
+        /// </summary>
         [Test]
         public void GivenMessage_ShouldReturnHappy()
         {
@@ -97,7 +96,8 @@ namespace MoodAnalyserTesting
         [Test]
         public void MoodAnalyserClass_NameShouldReturnMood_AnalyserObject()
         {
-            object expected = new MoodAnalyser();
+            string message = null;
+            object expected = new MoodAnalyser(message);
             object obj = MoodAnalyserFactory.CreateMoodAnalyser("MoodAnalyserSpace.MoodAnalyser", "MoodAnalyser");
             expected.Equals(obj);
         }
@@ -176,6 +176,30 @@ namespace MoodAnalyserTesting
             catch (MoodAnalyserCustomException exception)
             {
                 Assert.AreEqual(expected, exception.Message);
+            }
+        }
+        /// <summary>
+        /// TC - 6.1 -Given Happy Message Using Reflection When Proper Should Return HAPPY Mood
+        /// </summary>
+        [Test]
+        public void GiveHappyMessageUsingReflectionReturnHappy()
+        {
+            string result = MoodAnalyserFactory.InvokeAnalyseMood("HAPPY", "AnalyseMood");
+            Assert.AreEqual("HAPPY", result);
+        }
+        /// <summary>
+        /// TC 6.2 - Given Happy Message When Improper Method Should Throw MoodAnalysisException
+        /// </summary>
+        [Test]
+        public void GivenHappyWhenImproperThrowMoodAnalysisException()
+        {
+            try
+            {
+                string result = MoodAnalyserFactory.InvokeAnalyseMood("HAPPY", "AnalyseMoods");
+            }
+            catch (MoodAnalyserCustomException exception)
+            {
+                Assert.AreEqual("Constructor not found", exception.Message);
             }
         }
     }

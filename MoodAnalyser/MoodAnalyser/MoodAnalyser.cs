@@ -1,26 +1,29 @@
 ﻿using MoodAnalysers;
 using System;
+
+
 namespace MoodAnalyserSpace
 {
     public class MoodAnalyser
     {
-        private string message;
+        private string _message;
+
         public MoodAnalyser()
         {
 
         }
-        public MoodAnalyser(string message)
+        public MoodAnalyser(string message = "Null")
         {
-            this.message = message;
+            _message = message;
         }
 
         public string AnalyseMood()
         {
             try
             {
-                if (message.Equals(string.Empty))
+                if (_message.Equals(string.Empty))
                     throw new MoodAnalyserCustomException(MoodAnalyserCustomException.ExceptionType.EmptyMood, "Mood should not be Empty");
-                else if (message.ToLower().Contains("sad"))
+                else if (_message.ToLower().Contains("sad"))
                     return "SAD";
                 else
                     return "HAPPY";

@@ -9,7 +9,6 @@ namespace MoodAnalysers
 {
     public class MoodAnalyserFactory
     {
-
         public static object CreateMoodAnalyser(string className, string constructorName)
         {
 
@@ -34,7 +33,7 @@ namespace MoodAnalysers
                 throw new MoodAnalyserCustomException(MoodAnalyserCustomException.ExceptionType.NoSuchConstructor, "Constructor not found");
             }
         }
-       
+
         public static object CreateMoodAnalyserWithParameterisedConstructor(string className, string constructorName)
         {
             Type type = typeof(MoodAnalyser);
@@ -54,6 +53,22 @@ namespace MoodAnalysers
             else
             {
                 throw new MoodAnalyserCustomException(MoodAnalyserCustomException.ExceptionType.NoSuchClass, "Class not found");
+            }
+        }
+        public static string InvokeAnalyseMood(string message, string methodName)
+        {
+            try
+            {
+                Type type = Type.GetType("MoodAnalyserSpace.MoodAnalyser");//ClassName
+                object moodAnalyse = CreateMoodAnalyserWithParameterisedConstructor(
+                    "MoodAnalyserSpace.MoodAnalyser", "MoodAnalyser");//namespace with class name
+                MethodInfo methodInfo = type.GetMethod(methodName);//Methodname
+                object moodInvoke = methodInfo.Invoke(moodAnalyse, null); // Namespace.classname.methodname
+                return (string)moodInvoke;
+            }
+            catch (Exception)
+            {
+                throw new MoodAnalyserCustomException(MoodAnalyserCustomException.ExceptionType.NoSuchConstructor, "Constructor not found");
             }
         }
     }
