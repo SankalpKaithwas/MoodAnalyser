@@ -9,6 +9,7 @@ namespace MoodAnalysers
 {
     public class MoodAnalyserFactory
     {
+        public string mood;
         public static object CreateMoodAnalyser(string className, string constructorName)
         {
 
@@ -69,6 +70,26 @@ namespace MoodAnalysers
             catch (Exception)
             {
                 throw new MoodAnalyserCustomException(MoodAnalyserCustomException.ExceptionType.NoSuchConstructor, "Constructor not found");
+            }
+        }
+        public static string SetField(string message, string fieldName)
+        {
+            try
+            {
+                MoodAnalyser moodAnalyser = new MoodAnalyser();
+                Type type = typeof(MoodAnalyser);
+                //FieldInfo field = type.GetField(fieldName, BindingFlags.Public | BindingFlags.Instance);
+                FieldInfo field = type.GetField(fieldName);
+                if (message == null)
+                {
+                    throw new MoodAnalyserCustomException(MoodAnalyserCustomException.ExceptionType.NoSuchField, "Message should not be null");
+                }
+                field.SetValue(moodAnalyser, message);
+                return moodAnalyser.Mood;
+            }
+            catch (NullReferenceException)
+            {
+                throw new MoodAnalyserCustomException(MoodAnalyserCustomException.ExceptionType.NoSuchField, "Field is Not Found");
             }
         }
     }

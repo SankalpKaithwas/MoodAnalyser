@@ -182,7 +182,7 @@ namespace MoodAnalyserTesting
         /// TC - 6.1 -Given Happy Message Using Reflection When Proper Should Return HAPPY Mood
         /// </summary>
         [Test]
-        public void GiveHappyMessageUsingReflectionReturnHappy()
+        public void Give_HappyMessage_Using_Reflection_ReturnHappy()
         {
             string result = MoodAnalyserFactory.InvokeAnalyseMood("HAPPY", "AnalyseMood");
             Assert.AreEqual("HAPPY", result);
@@ -191,7 +191,7 @@ namespace MoodAnalyserTesting
         /// TC 6.2 - Given Happy Message When Improper Method Should Throw MoodAnalysisException
         /// </summary>
         [Test]
-        public void GivenHappyWhenImproperThrowMoodAnalysisException()
+        public void Given_HappyWhen_Improper_ThrowMoodAnalysis_Exception()
         {
             try
             {
@@ -200,6 +200,64 @@ namespace MoodAnalyserTesting
             catch (MoodAnalyserCustomException exception)
             {
                 Assert.AreEqual("Constructor not found", exception.Message);
+            }
+        }
+
+        /// <summary>
+        /// TC 7.1 Set Happy Message with Reflector Should Return HAPPY
+        /// </summary>
+        [Test]
+        public void Given_Proper_Field_Name_Should_Throw_MoodAnalysisException_WithReflector()
+        {
+            try
+            {
+                //Arrange
+                string message = "Happy";
+                //Act
+                string mood = MoodAnalyserFactory.SetField(message, "_message");
+            }
+            catch (MoodAnalyserCustomException exception)
+            {
+                //Assert
+                Assert.AreEqual("Field is Not Found", exception.Message);
+            }
+        }
+        /// <summary>
+        /// TC 7.2 Set Field When Improper Should Throw Exception with No Such Field
+        /// </summary>
+        [Test]
+        public void Given_Improper_Field_Name_Should_Throw_MoodAnalysisException_WithReflector()
+        {
+            try
+            {
+                //Arrange
+                string message = "Happy";
+                //Act
+                string mood = MoodAnalyserFactory.SetField(message, "improperfield");
+            }
+            catch (MoodAnalyserCustomException exception)
+            {
+                //Assert
+                Assert.AreEqual("Field is Not Found", exception.Message);
+            }
+        }
+        /// <summary>
+        /// TC 7.3 Setting Null Message with Reflector Should Throw Exception
+        /// </summary>
+        [Test]
+        public void Given_Null_Message_hould_Throw_MoodAnalysisException_WithReflector()
+        {
+            try
+            {
+                //Arrange
+                string message = null;
+                //Act
+                string mood = MoodAnalyserFactory.SetField(message, "inproperfield");
+            }
+            catch (MoodAnalyserCustomException exception)
+            {
+                //Assert
+                Assert.AreEqual("Message should not be null", exception.Message);
             }
         }
     }
